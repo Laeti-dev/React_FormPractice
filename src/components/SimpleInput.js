@@ -4,7 +4,9 @@ const SimpleInput = (props) => {
   // Create a state to check keystroke to use on the input
   const [enteredName, setEnteredName] = useState('');
   // create a state for the validation
-  const [nameIsValid, setNameIsValid] = useState(true);
+  const [nameIsValid, setNameIsValid] = useState(false);
+  //
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -12,7 +14,8 @@ const SimpleInput = (props) => {
 
   const submitFormHandler = (event) => {
     event.preventDefault();
-
+    // when user is submitting the form, set to true
+    setEnteredNameTouched(true);
     // Check for input validity
     if (enteredName.trim() === ''){
       setNameIsValid(false)
@@ -24,8 +27,8 @@ const SimpleInput = (props) => {
     // setEnteredName('');
 
   };
-
-  const nameInputClasses = nameIsValid ? "form-control" : "form-control invalid";
+  const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
+  const nameInputClasses = nameInputIsInvalid ? "form-control invalid" : "form-control";
 
   return (
     <form onSubmit={submitFormHandler}>
@@ -38,7 +41,7 @@ const SimpleInput = (props) => {
           // bind the states to input
           value={enteredName}
           />
-        {!nameIsValid && <p className="error-text">You should enter a Name</p>}
+        {nameInputIsInvalid && <p className="error-text">You should enter a Name</p>}
       </div>
       <div className="form-actions">
         <button>Submit</button>
