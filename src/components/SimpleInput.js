@@ -4,10 +4,24 @@ const SimpleInput = (props) => {
   // Create a state to check keystroke to use on the input
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+  // const [formIsValid, setFormIsValid] = useState(false);
 
   const nameIsValid = enteredName.trim() !== '';
   const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
+  let formIsValid = false;
 
+  // // to check if all the form is valid, rerender everytime an input is changed (dependencies)
+  // useEffect(() => {
+  //   if (nameIsValid) {
+  //     setFormIsValid(true);
+  //   } else {
+  //     setFormIsValid(false);
+  //   }
+  // }, [nameIsValid]);
+
+  if (nameIsValid) {
+    formIsValid = true;
+  };
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -50,7 +64,7 @@ const SimpleInput = (props) => {
         {nameInputIsInvalid && <p className="error-text">You should enter a Name</p>}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
