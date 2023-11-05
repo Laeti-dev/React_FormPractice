@@ -3,22 +3,18 @@ import { useState } from "react";
 const SimpleInput = (props) => {
   // Create a state to check keystroke to use on the input
   const [enteredName, setEnteredName] = useState('');
-  // create a state for the validation
-  const [nameIsValid, setNameIsValid] = useState(false);
-  //
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
+  const nameIsValid = enteredName.trim() !== '';
+  const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
+
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
-  };
+    };
 
   const nameInputBlurHandler = event => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === ''){
-      setNameIsValid(false)
-      return;
-    };
   };
 
   const submitFormHandler = (event) => {
@@ -26,18 +22,17 @@ const SimpleInput = (props) => {
     // when user is submitting the form, set to true
     setEnteredNameTouched(true);
     // Check for input validity
-    if (enteredName.trim() === ''){
-      setNameIsValid(false)
+    if (!nameIsValid){
       return;
     };
-    // set the validity of the inpu
+    // set the validity of the input
     // setNameIsValid(true);
     // reset form
-    // setEnteredName('');
+    setEnteredName('');
+    setEnteredNameTouched(false)
 
   };
 
-  const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
   const nameInputClasses = nameInputIsInvalid ? "form-control invalid" : "form-control";
 
   return (
