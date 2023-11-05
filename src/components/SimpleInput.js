@@ -14,12 +14,14 @@ const SimpleInput = (props) => {
     event.preventDefault();
 
     // Check for input validity
-    if (nameIsValid){
+    if (enteredName.trim() === ''){
+      setNameIsValid(false)
       return;
     };
-
+    // set the validity of the inpu
+    // setNameIsValid(true);
     // reset form
-    setEnteredName('');
+    // setEnteredName('');
 
   };
 
