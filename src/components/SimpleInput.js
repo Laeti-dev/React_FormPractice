@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 
+import useInput from '../hooks/use-input';
+
 const SimpleInput = (props) => {
-  // Create a state to check keystroke to use on the input
-  const [enteredName, setEnteredName] = useState('');
-  const [enteredEmail, setEnteredEmail] = useState('')
+  const [enteredName, setEnteredName] = useState('')
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
+  const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+
   const [formIsValid, setFormIsValid] = useState(false);
 
   const nameIsValid = enteredName.trim() !== '';
+  const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
 
   const validRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const emailIsValid = enteredEmail.match(validRegEx);
   const emailIsNotEmpty = enteredEmail.trim() !== ''
-
-  const nameInputIsInvalid = !nameIsValid && enteredNameTouched;
   const emailInputIsInvalid = (!emailIsValid || !emailIsNotEmpty) && enteredEmailTouched;
+
   // let formIsValid = false;
 
   // // to check if all the form is valid, rerender everytime an input is changed (dependencies)
@@ -37,7 +40,7 @@ const SimpleInput = (props) => {
 
   const emailInputChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
-  }
+  };
 
   const nameInputBlurHandler = event => {
     setEnteredNameTouched(true);
@@ -86,14 +89,14 @@ const SimpleInput = (props) => {
       <div className={emailInputClasses}>
         <label htmlFor='email'>Your Email</label>
         <input
-          type='text'
+          type='email'
           id='email'
           onChange={emailInputChangeHandler}
           onBlur={emailInputBlurHandler}
           // bind the states to input
           value={enteredEmail}
           />
-        {emailInputIsInvalid && <p className="error-text">You should enter an email</p>}
+        {emailInputIsInvalid && <p className="error-text">You should enter a valid email</p>}
       </div>
       <div className="form-actions">
         <button disabled={!formIsValid}>Submit</button>
