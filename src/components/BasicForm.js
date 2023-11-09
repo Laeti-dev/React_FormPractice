@@ -3,6 +3,8 @@ import { useState } from "react";
 const BasicForm = (props) => {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [firstNameIsValid, setFirstNameIsValid] = useState(false);
+  const [firstNameInputHasBeenTouch, setFirstNameInputHasBeenTouched] = useState(false);
+  const firstNameInputHasError = !firstNameIsValid || firstNameInputHasBeenTouch;
 
   const firstNameInputChangeHandler = (event) => {
     setFirstNameInput(event.target.value);
@@ -12,23 +14,31 @@ const BasicForm = (props) => {
     };
   };
 
+  const firstNameInputBlurHandler = (event) => {
+    setFirstNameInputHasBeenTouched(true);
+  };
+
   const submitFormHandler = (event) => {
     event.preventDefault();
     // reset
-    setFirstNameInput('')
-    setFirstNameIsValid(false)
-  }
+    setFirstNameInput('');
+    setFirstNameIsValid(false);
+    setFirstNameInputHasBeenTouched(false);
+  };
+
+  const firstNameClass = firstNameInputHasError ? "form-control invalid" : "form-control";
 
   return (
     <form onSubmit={submitFormHandler}>
       <div className='control-group'>
-        <div className='form-control'>
+        <div className={firstNameClass}>
           <label htmlFor='name'>First Name</label>
           <input
             type='text'
             id='name'
             value={firstNameInput}
             onChange={firstNameInputChangeHandler}
+            onBlur={firstNameInputBlurHandler}
             />
         </div>
         <div className='form-control'>
