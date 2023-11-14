@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const BasicForm = (props) => {
   const [firstNameInput, setFirstNameInput] = useState('');
@@ -11,10 +11,21 @@ const BasicForm = (props) => {
   const [lastNameInputHasBeenTouch, setLastNameInputHasBeenTouched] = useState(false);
   const lastNameInputHasError = !lastNameIsValid && lastNameInputHasBeenTouch;
 
+  const validRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const [emailInput, setEmailInput] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [emailInputHasBeenTouch, setEmailInputHasBeenTouched] = useState(false);
   const emailInputHasError = !emailIsValid && emailInputHasBeenTouch;
+
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+    if (firstNameIsValid && lastNameIsValid && emailIsValid) {
+      setFormIsValid(true)
+    } else {
+      setFormIsValid(false)
+    };
+  },[firstNameIsValid, lastNameIsValid, emailIsValid]);
 
   const firstNameInputChangeHandler = (event) => {
     setFirstNameInput(event.target.value);
@@ -110,7 +121,7 @@ const BasicForm = (props) => {
         {emailInputHasError && <p className="error-text">Email should be valid</p>}
       </div>
       <div className='form-actions'>
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
