@@ -1,21 +1,48 @@
 import { useState, useEffect } from "react";
 
-const BasicForm = (props) => {
-  const [firstNameInput, setFirstNameInput] = useState('');
-  const [firstNameIsValid, setFirstNameIsValid] = useState(false);
-  const [firstNameInputHasBeenTouch, setFirstNameInputHasBeenTouched] = useState(false);
-  const firstNameInputHasError = !firstNameIsValid && firstNameInputHasBeenTouch;
+import useInput from "../hooks/use-input";
 
-  const [lastNameInput, setLastNameInput] = useState('');
-  const [lastNameIsValid, setLastNameIsValid] = useState(false);
-  const [lastNameInputHasBeenTouch, setLastNameInputHasBeenTouched] = useState(false);
-  const lastNameInputHasError = !lastNameIsValid && lastNameInputHasBeenTouch;
+const BasicForm = (props) => {
+  const {
+    value: firstNameInput,
+    valueIsValid: firstNameIsValid,
+    hasError: firstNameInputHasError,
+    valueChangeHandler : firstNameInputChangeHandler,
+    valueBlurHandler: firstNameInputBlurHandler,
+    reset: resetFirstNameInput
+  } = useInput(value => value.trim() !== '')
+  // const [firstNameInput, setFirstNameInput] = useState('');
+  // const [firstNameIsValid, setFirstNameIsValid] = useState(false);
+  // const [firstNameInputHasBeenTouch, setFirstNameInputHasBeenTouched] = useState(false);
+  // const firstNameInputHasError = !firstNameIsValid && firstNameInputHasBeenTouch;
+
+  const {
+    value: lastNameInput,
+    valueIsValid: lastNameIsValid,
+    hasError: lastNameInputHasError,
+    valueChangeHandler : lastNameInputChangeHandler,
+    valueBlurHandler: lastNameInputBlurHandler,
+    reset: resetLastNameInput
+  } = useInput(value => value.trim() !== '')
+  // const [lastNameInput, setLastNameInput] = useState('');
+  // const [lastNameIsValid, setLastNameIsValid] = useState(false);
+  // const [lastNameInputHasBeenTouch, setLastNameInputHasBeenTouched] = useState(false);
+  // const lastNameInputHasError = !lastNameIsValid && lastNameInputHasBeenTouch;
+
 
   const validRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  const [emailInput, setEmailInput] = useState('');
-  const [emailIsValid, setEmailIsValid] = useState(false);
-  const [emailInputHasBeenTouch, setEmailInputHasBeenTouched] = useState(false);
-  const emailInputHasError = !emailIsValid && emailInputHasBeenTouch;
+  const {
+    value: emailInput,
+    valueIsValid: emailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler : emailInputChangeHandler,
+    valueBlurHandler: emailInputBlurHandler,
+    reset: resetEmailInput
+  } = useInput(value => value.trim() !== '' && value.match(validRegEx))
+  // const [emailInput, setEmailInput] = useState('');
+  // const [emailIsValid, setEmailIsValid] = useState(false);
+  // const [emailInputHasBeenTouch, setEmailInputHasBeenTouched] = useState(false);
+  // const emailInputHasError = !emailIsValid && emailInputHasBeenTouch;
 
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -27,54 +54,60 @@ const BasicForm = (props) => {
     };
   },[firstNameIsValid, lastNameIsValid, emailIsValid]);
 
-  const firstNameInputChangeHandler = (event) => {
-    setFirstNameInput(event.target.value);
-    if (firstNameInput.trim() !== ''){
-      setFirstNameIsValid(true)
-      console.log(firstNameInput)
-    };
-  };
+  // const firstNameInputChangeHandler = (event) => {
+  //   setFirstNameInput(event.target.value);
+  //   if (firstNameInput.trim() !== ''){
+  //     setFirstNameIsValid(true)
+  //     console.log(firstNameInput)
+  //   };
+  // };
 
-  const firstNameInputBlurHandler = (event) => {
-    setFirstNameInputHasBeenTouched(true);
-  };
+  // const firstNameInputBlurHandler = (event) => {
+  //   setFirstNameInputHasBeenTouched(true);
+  // };
 
-  const lastNameInputChangeHandler = (event) => {
-    setLastNameInput(event.target.value);
-    if (lastNameInput.trim() !== ''){
-      setLastNameIsValid(true)
-    };
-  };
+  // const lastNameInputChangeHandler = (event) => {
+  //   setLastNameInput(event.target.value);
+  //   if (lastNameInput.trim() !== ''){
+  //     setLastNameIsValid(true)
+  //   };
+  // };
 
-  const lastNameInputBlurHandler = (event) => {
-    setLastNameInputHasBeenTouched(true);
-  };
+  // const lastNameInputBlurHandler = (event) => {
+  //   setLastNameInputHasBeenTouched(true);
+  // };
 
-  const emailInputChangeHandler = (event) => {
-    setEmailInput(event.target.value);
-    if (emailInput.trim() !== ''){
-      setEmailIsValid(true)
-    };
-  };
+  // const emailInputChangeHandler = (event) => {
+  //   setEmailInput(event.target.value);
+  //   if (emailInput.trim() !== ''){
+  //     setEmailIsValid(true)
+  //   };
+  // };
 
-  const emailInputBlurHandler = (event) => {
-    setEmailInputHasBeenTouched(true);
-  };
+  // const emailInputBlurHandler = (event) => {
+  //   setEmailInputHasBeenTouched(true);
+  // };
 
   const submitFormHandler = (event) => {
     event.preventDefault();
     // reset
-    setFirstNameInput('');
-    setFirstNameIsValid(false);
-    setFirstNameInputHasBeenTouched(false);
+    // setFirstNameInput('');
+    // setFirstNameIsValid(false);
+    // setFirstNameInputHasBeenTouched(false);
+    if (!formIsValid){
+      return;
+    }
+    resetFirstNameInput();
+    resetLastNameInput();
+    resetEmailInput();
 
-    setLastNameInput('');
-    setLastNameIsValid(false);
-    setLastNameInputHasBeenTouched(false);
+    // setLastNameInput('');
+    // setLastNameIsValid(false);
+    // setLastNameInputHasBeenTouched(false);
 
-    setEmailInput('');
-    setEmailIsValid(false);
-    setEmailInputHasBeenTouched(false);
+    // setEmailInput('');
+    // setEmailIsValid(false);
+    // setEmailInputHasBeenTouched(false);
   };
 
 
