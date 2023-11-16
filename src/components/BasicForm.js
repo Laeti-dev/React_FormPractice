@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
 import useInput from "../hooks/use-input";
+const validRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const isEmail =  value => value.match(validRegEx);
+
+const isNotEmpty = value => value.trim() !== '';
 
 const BasicForm = (props) => {
   const {
@@ -10,7 +14,7 @@ const BasicForm = (props) => {
     valueChangeHandler : firstNameInputChangeHandler,
     valueBlurHandler: firstNameInputBlurHandler,
     reset: resetFirstNameInput
-  } = useInput(value => value.trim() !== '')
+  } = useInput(isNotEmpty)
   // const [firstNameInput, setFirstNameInput] = useState('');
   // const [firstNameIsValid, setFirstNameIsValid] = useState(false);
   // const [firstNameInputHasBeenTouch, setFirstNameInputHasBeenTouched] = useState(false);
@@ -23,14 +27,12 @@ const BasicForm = (props) => {
     valueChangeHandler : lastNameInputChangeHandler,
     valueBlurHandler: lastNameInputBlurHandler,
     reset: resetLastNameInput
-  } = useInput(value => value.trim() !== '')
+  } = useInput(isNotEmpty)
   // const [lastNameInput, setLastNameInput] = useState('');
   // const [lastNameIsValid, setLastNameIsValid] = useState(false);
   // const [lastNameInputHasBeenTouch, setLastNameInputHasBeenTouched] = useState(false);
   // const lastNameInputHasError = !lastNameIsValid && lastNameInputHasBeenTouch;
 
-
-  const validRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const {
     value: emailInput,
     valueIsValid: emailIsValid,
@@ -38,21 +40,17 @@ const BasicForm = (props) => {
     valueChangeHandler : emailInputChangeHandler,
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput
-  } = useInput(value => value.trim() !== '' && value.match(validRegEx))
+  } = useInput(isNotEmpty && isEmail)
   // const [emailInput, setEmailInput] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState(false);
   // const [emailInputHasBeenTouch, setEmailInputHasBeenTouched] = useState(false);
   // const emailInputHasError = !emailIsValid && emailInputHasBeenTouch;
 
-  const [formIsValid, setFormIsValid] = useState(false);
+  let formIsValid = false;
 
-  useEffect(() => {
-    if (firstNameIsValid && lastNameIsValid && emailIsValid) {
-      setFormIsValid(true)
-    } else {
-      setFormIsValid(false)
-    };
-  },[firstNameIsValid, lastNameIsValid, emailIsValid]);
+  if (firstNameIsValid && lastNameIsValid && emailIsValid) {
+    formIsValid = true
+  };
 
   // const firstNameInputChangeHandler = (event) => {
   //   setFirstNameInput(event.target.value);
