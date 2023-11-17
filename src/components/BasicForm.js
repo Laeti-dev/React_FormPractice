@@ -41,10 +41,6 @@ const BasicForm = (props) => {
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput
   } = useInput(isNotEmpty && isEmail)
-  // const [emailInput, setEmailInput] = useState('');
-  // const [emailIsValid, setEmailIsValid] = useState(false);
-  // const [emailInputHasBeenTouch, setEmailInputHasBeenTouched] = useState(false);
-  // const emailInputHasError = !emailIsValid && emailInputHasBeenTouch;
 
   let formIsValid = false;
 
@@ -52,46 +48,10 @@ const BasicForm = (props) => {
     formIsValid = true
   };
 
-  // const firstNameInputChangeHandler = (event) => {
-  //   setFirstNameInput(event.target.value);
-  //   if (firstNameInput.trim() !== ''){
-  //     setFirstNameIsValid(true)
-  //     console.log(firstNameInput)
-  //   };
-  // };
-
-  // const firstNameInputBlurHandler = (event) => {
-  //   setFirstNameInputHasBeenTouched(true);
-  // };
-
-  // const lastNameInputChangeHandler = (event) => {
-  //   setLastNameInput(event.target.value);
-  //   if (lastNameInput.trim() !== ''){
-  //     setLastNameIsValid(true)
-  //   };
-  // };
-
-  // const lastNameInputBlurHandler = (event) => {
-  //   setLastNameInputHasBeenTouched(true);
-  // };
-
-  // const emailInputChangeHandler = (event) => {
-  //   setEmailInput(event.target.value);
-  //   if (emailInput.trim() !== ''){
-  //     setEmailIsValid(true)
-  //   };
-  // };
-
-  // const emailInputBlurHandler = (event) => {
-  //   setEmailInputHasBeenTouched(true);
-  // };
 
   const submitFormHandler = (event) => {
     event.preventDefault();
-    // reset
-    // setFirstNameInput('');
-    // setFirstNameIsValid(false);
-    // setFirstNameInputHasBeenTouched(false);
+
     if (!formIsValid){
       return;
     }
@@ -99,13 +59,6 @@ const BasicForm = (props) => {
     resetLastNameInput();
     resetEmailInput();
 
-    // setLastNameInput('');
-    // setLastNameIsValid(false);
-    // setLastNameInputHasBeenTouched(false);
-
-    // setEmailInput('');
-    // setEmailIsValid(false);
-    // setEmailInputHasBeenTouched(false);
   };
 
 

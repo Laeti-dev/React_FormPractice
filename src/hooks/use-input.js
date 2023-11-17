@@ -1,28 +1,46 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+const initialInputState = {
+  value: '',
+  isTouched: false
+};
+
+const inputStateReducer = (prevState, action) => {
+    if (action.type === 'INPUT'){
+      return { value: action.value, isTouched: prevState.isTouched };
+    }
+    if (action.type === 'BLUR'){
+      return {isTouched: true}
+    }
+    if (action.type === 'RESET'){
+      return { value: '', isTouched: false};
+    };
+    return initialInputState;
+  };
 
 const useInput = (validateValue) => {
+  const [inputState, dispatch] = useReducer(inputStateReducer, {});
   // Create a state to check keystroke to use on the input
-  const [enteredValue, setEnteredValue] = useState('');
-  const [isTouched, setIsTouched] = useState(false);
+  // const [enteredValue, setEnteredValue] = useState('');
+  // const [isTouched, setIsTouched] = useState(false);
 
-  const valueIsValid = validateValue(enteredValue);
-  const hasError = !valueIsValid && isTouched;
+  const valueIsValid = validateValue(inputState.value);
+  const hasError = !valueIsValid && inputState.isTouched;
 
   const valueChangeHandler = (event) => {
-    setEnteredValue(event.target.value);
+    dispatch({type: 'INPUT', value: event.target.value});
   };
 
   const valueBlurHandler = event => {
-    setIsTouched(true);
+    dispatch({type: 'BLUR'});
   };
 
   const reset = () => {
-    setEnteredValue('');
-    setIsTouched(false);
+    dispatch({type: 'RESET'});
   };
 
   return {
-    value: enteredValue,
+    value: inputState.value,
     valueIsValid,
     hasError,
     valueChangeHandler,
